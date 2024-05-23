@@ -5,11 +5,11 @@ services:
     image: postgres:13
     container_name: postgres-container
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: taskdb
+      POSTGRES_USER: nest
+      POSTGRES_PASSWORD: nestpass
     ports:
-      - "5440:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
