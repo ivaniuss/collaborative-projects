@@ -24,6 +24,7 @@ Esta aplicación es un sistema de blog personal que permite a los usuarios crear
         "id": "ObjectId",
         "title": "string",
         "content": "string",
+        "imagen" : "string",
         "createdAt": "datetime",
         "updatedAt": "datetime"
       }
@@ -49,12 +50,12 @@ sequenceDiagram
     Database -->> App: Detalles de la publicación
     App -->> User: Muestra los detalles de la publicación
 
-    User ->> App: Crea nueva publicación (title, content)
+    User ->> App: Crea nueva publicación (title, content, image)
     App ->> Database: Inserta nueva publicación en la colección BLOG
     Database -->> App: Publicación creada exitosamente
     App -->> User: Confirmación de publicación creada
 
-    User ->> App: Actualiza publicación (id, title, content)
+    User ->> App: Actualiza publicación (id, title, content, image)
     App ->> Database: Actualiza publicación en la colección BLOG
     Database -->> App: Publicación actualizada exitosamente
     App -->> User: Confirmación de publicación actualizada
@@ -64,3 +65,6 @@ sequenceDiagram
     Database -->> App: Publicación eliminada exitosamente
     App -->> User: Confirmación de publicación eliminada
 ```
+## Diseño de referencia para el Frontend
+
+![Dashboard](./blogs.png)
