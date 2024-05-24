@@ -1,6 +1,6 @@
 import { IsString, IsDate, IsNumber } from 'class-validator';
 
-export class Task {
+export class CreateTaskDto {
   @IsString()
   userId: string;
 
@@ -12,9 +12,6 @@ export class Task {
 
   @IsString()
   description: string;
-
-  @IsString()
-  state: string;
 
   @IsDate()
   Date: Date;
