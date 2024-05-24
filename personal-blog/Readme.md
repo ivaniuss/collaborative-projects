@@ -8,11 +8,13 @@ Esta aplicación es un sistema de blog personal que permite a los usuarios crear
 
 - **Gestión de Publicaciones**: Creación, actualización y eliminación de publicaciones de blog.
 - **Visualización de Publicaciones**: Visualización de todas las publicaciones y detalles de cada una.
+- **Gestión de Imágenes**: Integración con un servicio externo para la subida y gestión de imágenes.
 
 ## Requisitos
 
 - Cualquier framework de tu elección tanto para Backend como para Frontend.
 - MongoDB como base de datos.
+- Servicio externo para la gestión de imágenes (ejemplo: Cloudinary, AWS S3, etc.)
 
 ## Esquema de la Base de Datos
 
@@ -39,31 +41,40 @@ sequenceDiagram
     participant User
     participant App
     participant Database
+    participant ImageService
 
-    User ->> App: Visualiza todas las publicaciones
+    User ->> App: GET /api/blogs
     App ->> Database: Consulta todas las publicaciones en la colección BLOG
     Database -->> App: Lista de publicaciones
-    App -->> User: Muestra la lista de publicaciones
+    App -->> User: 200 OK, Muestra la lista de publicaciones
 
-    User ->> App: Ve detalles de una publicación (id)
+    User ->> App: GET /api/blogs/:id
     App ->> Database: Consulta detalles de la publicación en la colección BLOG
     Database -->> App: Detalles de la publicación
-    App -->> User: Muestra los detalles de la publicación
+    App -->> User: 200 OK, Muestra los detalles de la publicación
 
-    User ->> App: Crea nueva publicación (title, content, image)
-    App ->> Database: Inserta nueva publicación en la colección BLOG
+    User ->> App: POST /api/blogs (title, content, image)
+    App ->> ImageService: Sube la imagen
+    ImageService -->> App: URL de la imagen
+    App ->> Database: Inserta nueva publicación en la colección BLOG con la URL de la imagen
     Database -->> App: Publicación creada exitosamente
-    App -->> User: Confirmación de publicación creada
+    App -->> User: 201 Created, Confirmación de publicación creada
 
-    User ->> App: Actualiza publicación (id, title, content, image)
-    App ->> Database: Actualiza publicación en la colección BLOG
+    User ->> App: PUT /api/blogs/:id (title, content, image)
+    App ->> ImageService: Actualiza la imagen (opcional)
+    ImageService -->> App: URL de la imagen actualizada
+    App ->> Database: Actualiza publicación en la colección BLOG con la URL de la imagen actualizada
     Database -->> App: Publicación actualizada exitosamente
-    App -->> User: Confirmación de publicación actualizada
+    App -->> User: 200 OK, Confirmación de publicación actualizada
 
-    User ->> App: Elimina publicación (id)
+    User ->> App: DELETE /api/blogs/:id
+    App ->> Database: Consulta detalles de la publicación en la colección BLOG
+    Database -->> App: Detalles de la publicación con URL de la imagen
+    App ->> ImageService: Elimina la imagen
+    ImageService -->> App: Confirmación de imagen eliminada
     App ->> Database: Elimina publicación de la colección BLOG
     Database -->> App: Publicación eliminada exitosamente
-    App -->> User: Confirmación de publicación eliminada
+    App -->> User: 204 No Content, Confirmación de publicación eliminada
 ```
 ## Diseño de referencia para el Frontend
 
