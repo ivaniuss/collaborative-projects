@@ -67,4 +67,8 @@ sequenceDiagram
 ```
 ## Diseño de referencia para el Frontend
 
+  - **Web**
 ![Dashboard](./blogs.png)
+  - **Mobile-Responsive**
+  ![Dashboard-responsive](./blogs-responsive.png)
+
