@@ -16,7 +16,7 @@ export class TasksService {
     title: string,
     description: string,
     userId: string,
-    Date: Date,
+    upDate: Date,
     state: number,
   ) {
     const newTask = await prisma.task.create({
@@ -25,7 +25,7 @@ export class TasksService {
         description: description,
         userId: userId,
         stateId: state,
-        update: Date,
+        update: upDate,
       },
     });
 
