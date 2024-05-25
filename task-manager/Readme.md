@@ -49,6 +49,13 @@ sequenceDiagram
     participant App
     participant Database
 
+    User ->> App: Registro (username, password, email)
+    App ->> Database: Verifica si el username ya existe
+    Database -->> App: No existe
+    App ->> Database: Inserta nuevo usuario en tabla USER
+    Database -->> App: Usuario registrado exitosamente
+    App -->> User: Conafirmación de registro exitoso
+
     User ->> App: Inicia sesión (username, password)
     App ->> Database: Verifica credenciales de usuario
     Database -->> App: Credenciales válidas
