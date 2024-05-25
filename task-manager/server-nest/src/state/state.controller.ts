@@ -9,4 +9,9 @@ export class StateController {
   getState(id: number) {
     return this.stateService.getState(id);
   }
+
+  @Get('all')
+  getAll() {
+    return this.stateService.getAll();
+  }
 }
