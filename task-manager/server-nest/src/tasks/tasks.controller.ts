@@ -9,6 +9,7 @@ import {
   Patch,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
+import { CreateTaskDto } from './dto/create-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -21,26 +22,36 @@ export class TasksController {
 
   @Get(':id')
   getTask(@Param('id') id) {
-    return this.tasksService.getOne(id);
+    return this.tasksService.getOne(parseInt(id));
   }
 
   @Post()
-  createTask(@Body() body) {
-    return this.tasksService.create(body.data.task);
+  createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.create(
+      createTaskDto.title,
+      createTaskDto.description,
+      createTaskDto.userId,
+      createTaskDto.Date,
+      createTaskDto.stateId,
+    );
   }
 
   @Put(':id')
   updateTask(@Param('id') id, @Body() body) {
-    return this.tasksService.update(id, body.data.task);
+    return this.tasksService.update(
+      parseInt(id),
+      body.data.task.title,
+      body.data.task.description,
+    );
   }
 
   @Patch(':id')
   updateState(@Param('id') id, @Body() body) {
-    return this.tasksService.updateState(id, body.data.task.state);
+    return this.tasksService.updateState(parseInt(id), body.data.task.state);
   }
 
   @Delete()
   deleteTask(@Param('id') id) {
-    return this.tasksService.delete(id);
+    return this.tasksService.delete(parseInt(id));
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { Task } from 'src/tasks/dto/create-task.dto';
 
-const prisma = PrismaClient();
+const prisma = new PrismaClient();
 @Injectable()
 export class TasksService {
   async getAll(userId: string) {
@@ -10,43 +9,49 @@ export class TasksService {
   }
 
   async getOne(id: number) {
-    return await prisma.findunique({ where: { id } });
+    return await prisma.task.findUnique({ where: { id } });
   }
 
-  async create(task: Task) {
-    return await prisma.task.create({
+  async create(
+    title: string,
+    description: string,
+    userId: string,
+    Date: Date,
+    state: number,
+  ) {
+    const newTask = await prisma.task.create({
       data: {
-        title: task.title,
-        description: task.description,
-        userId: task.userId,
-        state: task.state,
-        date: task.Date,
+        title: title,
+        description: description,
+        userId: userId,
+        stateId: state,
+        update: Date,
       },
     });
+
+    return newTask;
   }
 
-  async update(id: string, task: Task) {
+  async update(id: number, title: string, description: string) {
     return await prisma.task.update({
       where: { id },
       data: {
-        title: task.title,
-        description: task.description,
-        userId: task.userId,
-        date: task.Date,
+        title: title,
+        description: description,
       },
     });
   }
 
-  async updateState(id: string, state: string) {
+  async updateState(id: number, state: number) {
     return await prisma.task.update({
       where: { id },
       data: {
-        state: state,
+        stateId: state,
       },
     });
   }
 
-  async delete(id: string) {
+  async delete(id: number) {
     await prisma.task.delete({ where: { id } });
   }
 }
