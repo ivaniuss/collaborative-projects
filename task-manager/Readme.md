@@ -33,7 +33,7 @@ erDiagram
         int state_id FK
         string title
         string description
-        date update
+        datetime update
 
     }
     STATE {
