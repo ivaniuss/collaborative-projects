@@ -54,7 +54,7 @@ sequenceDiagram
     Database -->> App: No existe
     App ->> Database: Inserta nuevo usuario en tabla USER
     Database -->> App: Usuario registrado exitosamente
-    App -->> User: Conafirmación de registro exitoso
+    App -->> User: Confirmación de registro exitoso
 
     User ->> App: Inicia sesión (username, password)
     App ->> Database: Verifica credenciales de usuario
