@@ -12,15 +12,19 @@ export class TasksService {
     return await prisma.task.findUnique({ where: { id } });
   }
 
-  async create(title: string, description: string, userId: string, Date: Date) {
-    const state = await prisma.state.create({ data: { name: 'pending' } });
-
+  async create(
+    title: string,
+    description: string,
+    userId: string,
+    Date: Date,
+    state: number,
+  ) {
     const newTask = await prisma.task.create({
       data: {
         title: title,
         description: description,
         userId: userId,
-        stateId: state.id,
+        stateId: state,
         update: Date,
       },
     });
@@ -38,11 +42,11 @@ export class TasksService {
     });
   }
 
-  async updateState(id: number, state: string) {
-    return await prisma.state.update({
+  async updateState(id: number, state: number) {
+    return await prisma.task.update({
       where: { id },
       data: {
-        name: state,
+        stateId: state,
       },
     });
   }

@@ -32,6 +32,7 @@ export class TasksController {
       createTaskDto.description,
       createTaskDto.userId,
       createTaskDto.Date,
+      createTaskDto.stateId,
     );
   }
 
