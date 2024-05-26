@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import AdminPage from "./pages/AdminPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import PostPage from "./pages/PostPage.tsx";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
