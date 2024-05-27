@@ -13,6 +13,7 @@ import {
 
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -30,48 +31,38 @@ export class TasksController {
 
   @Post()
   createTask(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(
-      createTaskDto.title,
-      createTaskDto.description,
-      createTaskDto.userId,
-      createTaskDto.update,
-      createTaskDto.stateId,
-    );
+    return this.tasksService.create(createTaskDto);
   }
 
   @Put(':id')
   update(
     @Request() req,
     @Param('id', ParseIntPipe) id,
-    @Body() createTaskDto: CreateTaskDto,
+    @Body() updateTaskDto: UpdateTaskDto,
   ) {
-    return this.tasksService.update(req.user.id, id, createTaskDto);
+    return this.tasksService.update(req.user.id, id, updateTaskDto);
   }
 
   @Patch(':id')
   updateTask(
     @Request() req,
     @Param('id', ParseIntPipe) id,
-    @Body() createTaskDto: CreateTaskDto,
+    @Body() updateTaskDto: UpdateTaskDto,
   ) {
-    return this.tasksService.updateTask(
-      req.user.id,
-      id,
-      createTaskDto.title,
-      createTaskDto.description,
-    );
+    return this.tasksService.updateTask(req.user.id, id, updateTaskDto);
   }
 
   @Patch(':id')
   updateState(
+    @Request() req,
     @Param('id', ParseIntPipe) id,
-    @Body() createTaskDto: CreateTaskDto,
+    @Body() updateTaskDto: UpdateTaskDto,
   ) {
-    return this.tasksService.updateState(id, createTaskDto.stateId);
+    return this.tasksService.updateState(req.user.id, id, updateTaskDto);
   }
 
-  @Delete()
-  deleteTask(@Param('id', ParseIntPipe) id) {
-    return this.tasksService.delete(id);
+  @Delete(':id')
+  deleteTask(@Request() req, @Param('id', ParseIntPipe) id) {
+    return this.tasksService.delete(req.user.id, id);
   }
 }
