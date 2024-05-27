@@ -5,12 +5,14 @@ import AdminPage from "./pages/AdminPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import PostPage from "./pages/PostPage.tsx";
 import "./index.css";
+import NewBlogPage from "./pages/NewBlogPage.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/admin/new" element={<NewBlogPage />} />
         <Route path="/post/:postId" element={<PostPage />} />
         <Route path="/admin" element={<AdminPage />} />
         {/* Redirects home, all urls that do not match */}
