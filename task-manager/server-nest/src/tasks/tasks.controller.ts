@@ -2,12 +2,15 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Delete,
   Param,
   Body,
   Patch,
+  Request,
+  ParseIntPipe,
+  Put,
 } from '@nestjs/common';
+
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 
@@ -16,13 +19,13 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  getTasks(@Body() body) {
-    return this.tasksService.getAll(body.data.task.userId);
+  getTasks(@Request() req) {
+    return this.tasksService.getAll(req.user.id);
   }
 
   @Get(':id')
-  getTask(@Param('id') id) {
-    return this.tasksService.getOne(parseInt(id));
+  getTask(@Request() req, @Param('id', ParseIntPipe) id) {
+    return this.tasksService.getOne(req.user.id, id);
   }
 
   @Post()
@@ -31,27 +34,44 @@ export class TasksController {
       createTaskDto.title,
       createTaskDto.description,
       createTaskDto.userId,
-      createTaskDto.Date,
+      createTaskDto.update,
       createTaskDto.stateId,
     );
   }
 
   @Put(':id')
-  updateTask(@Param('id') id, @Body() body) {
-    return this.tasksService.update(
-      parseInt(id),
-      body.data.task.title,
-      body.data.task.description,
+  update(
+    @Request() req,
+    @Param('id', ParseIntPipe) id,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    return this.tasksService.update(req.user.id, id, createTaskDto);
+  }
+
+  @Patch(':id')
+  updateTask(
+    @Request() req,
+    @Param('id', ParseIntPipe) id,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    return this.tasksService.updateTask(
+      req.user.id,
+      id,
+      createTaskDto.title,
+      createTaskDto.description,
     );
   }
 
   @Patch(':id')
-  updateState(@Param('id') id, @Body() body) {
-    return this.tasksService.updateState(parseInt(id), body.data.task.state);
+  updateState(
+    @Param('id', ParseIntPipe) id,
+    @Body() createTaskDto: CreateTaskDto,
+  ) {
+    return this.tasksService.updateState(id, createTaskDto.stateId);
   }
 
   @Delete()
-  deleteTask(@Param('id') id) {
-    return this.tasksService.delete(parseInt(id));
+  deleteTask(@Param('id', ParseIntPipe) id) {
+    return this.tasksService.delete(id);
   }
 }

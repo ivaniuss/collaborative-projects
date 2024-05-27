@@ -14,5 +14,5 @@ export class CreateTaskDto {
   description: string;
 
   @IsDate()
-  Date: Date;
+  update: Date;
 }
