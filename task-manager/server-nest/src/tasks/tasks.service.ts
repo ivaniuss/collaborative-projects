@@ -19,6 +19,7 @@ export class TasksService {
       data: {
         ...createTaskDto,
         update: new Date(),
+        userId: userId,
       },
     });
   }
