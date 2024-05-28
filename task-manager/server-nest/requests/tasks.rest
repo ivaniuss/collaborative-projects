@@ -1,0 +1,19 @@
+post http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "ivan",
+    "password": "ivan123"
+}
+
+###
+post http://localhost:3000/tasks 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iml2YW4iLCJzdWIiOiI1ZjE5OGQ3NS05MTZjLTRkMWQtYTJmMy02ZTVlZWZkZWRjMTUiLCJpYXQiOjE3MTY5MjE5MDMsImV4cCI6MTcxNjkyNTUwM30.OHDax5qli_7D3lT8ezCjJ8YZ702jYq08-AyDpTbebFk
+
+{ "title": "restful1", "stateId": 1 }
+
+###
+get http://localhost:3000/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Iml2YW4iLCJzdWIiOiI1ZjE5OGQ3NS05MTZjLTRkMWQtYTJmMy02ZTVlZWZkZWRjMTUiLCJpYXQiOjE3MTY5MjE5MDMsImV4cCI6MTcxNjkyNTUwM30.OHDax5qli_7D3lT8ezCjJ8YZ702jYq08-AyDpTbebFk
+Content-Type: application/json
