@@ -30,8 +30,13 @@ export class TasksController {
   }
 
   @Post()
+<<<<<<< HEAD
   createTask(@Request() req, @Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(req.user.id, createTaskDto);
+=======
+  createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.create(createTaskDto);
+>>>>>>> 087026b (Feature/task (#25))
   }
 
   @Put(':id')
