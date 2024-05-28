@@ -1,57 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 const prisma = new PrismaClient();
 @Injectable()
 export class TasksService {
   async getAll(userId: string) {
-    return await prisma.task.findMany({ where: { userId } });
+    return await prisma.task.findMany({ where: { userId: userId } });
   }
 
-  async getOne(id: number) {
-    return await prisma.task.findUnique({ where: { id } });
+  async getOne(userId: string, id: number) {
+    return await prisma.task.findUnique({ where: { userId: userId, id: id } });
   }
 
-  async create(
-    title: string,
-    description: string,
-    userId: string,
-    upDate: Date,
-    state: number,
-  ) {
-    const newTask = await prisma.task.create({
+  async create(createTaskDto: CreateTaskDto) {
+    return await prisma.task.create({
       data: {
-        title: title,
-        description: description,
-        userId: userId,
-        stateId: state,
-        update: upDate,
+        ...createTaskDto,
+        update: new Date(),
       },
     });
-
-    return newTask;
   }
 
-  async update(id: number, title: string, description: string) {
+  async update(userId: string, id: number, updateTaskDto: UpdateTaskDto) {
     return await prisma.task.update({
-      where: { id },
+      where: { id: id, userId: userId },
       data: {
-        title: title,
-        description: description,
+        ...updateTaskDto,
+        update: new Date(),
       },
     });
   }
-
-  async updateState(id: number, state: number) {
+  async updateTask(userId: string, id: number, updateTaskDto: UpdateTaskDto) {
     return await prisma.task.update({
-      where: { id },
+      where: { id: id, userId: userId },
       data: {
-        stateId: state,
+        ...updateTaskDto,
       },
     });
   }
 
-  async delete(id: number) {
-    await prisma.task.delete({ where: { id } });
+  async updateState(userId: string, id: number, updateState: UpdateTaskDto) {
+    return await prisma.task.update({
+      where: { id: id, userId: userId },
+      data: {
+        ...updateState,
+      },
+    });
+  }
+
+  async delete(userId: string, id: number) {
+    await prisma.task.delete({ where: { userId: userId, id: id } });
   }
 }
