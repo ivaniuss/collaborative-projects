@@ -5,22 +5,21 @@ import {
 } from '@nestjs/common';
 import { PrismaClient, User } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
+import { CreateUserDto } from './dto/create-user.dto';
 
 const prisma = new PrismaClient();
 
 @Injectable()
 export class UsersService {
   async createUser(
-    username: string,
-    password: string,
-    email: string,
+    createUserDto: CreateUserDto,
   ): Promise<Omit<User, 'password'>> {
     try {
+      const { username, password, email } = createUserDto;
       const existingUser = await this.findUserByUsername(username);
       if (existingUser) {
         throw new ConflictException('Username already exists');
       }
-
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const newUser = await prisma.user.create({
@@ -30,7 +29,6 @@ export class UsersService {
           email,
         },
       });
-
       // Excluir el campo password antes de retornar el usuario
       const { password: _, ...result } = newUser;
       return result;

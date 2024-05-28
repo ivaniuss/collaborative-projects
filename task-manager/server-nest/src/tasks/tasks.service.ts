@@ -14,11 +14,12 @@ export class TasksService {
     return await prisma.task.findUnique({ where: { userId: userId, id: id } });
   }
 
-  async create(createTaskDto: CreateTaskDto) {
+  async create(userId: string, createTaskDto: CreateTaskDto) {
     return await prisma.task.create({
       data: {
         ...createTaskDto,
         update: new Date(),
+        userId: userId,
       },
     });
   }
