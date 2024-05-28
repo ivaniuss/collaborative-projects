@@ -16,25 +16,37 @@ export class TasksService {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b754d6c (Feature/task (#25))
   async create(userId: string, createTaskDto: CreateTaskDto) {
 =======
   async create(createTaskDto: CreateTaskDto) {
 >>>>>>> 087026b (Feature/task (#25))
+<<<<<<< HEAD
 =======
   async create(userId: string, createTaskDto: CreateTaskDto) {
 >>>>>>> 23ea12c (Feature/task (#30))
+=======
+>>>>>>> b754d6c (Feature/task (#25))
     return await prisma.task.create({
       data: {
         ...createTaskDto,
         update: new Date(),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         userId: userId,
 =======
 >>>>>>> 087026b (Feature/task (#25))
 =======
         userId: userId,
 >>>>>>> 23ea12c (Feature/task (#30))
+=======
+        userId: userId,
+=======
+>>>>>>> 087026b (Feature/task (#25))
+>>>>>>> b754d6c (Feature/task (#25))
       },
     });
   }
