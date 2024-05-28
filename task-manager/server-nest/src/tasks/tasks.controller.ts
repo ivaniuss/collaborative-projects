@@ -2,56 +2,67 @@ import {
   Controller,
   Get,
   Post,
-  Put,
   Delete,
   Param,
   Body,
   Patch,
+  Request,
+  ParseIntPipe,
+  Put,
 } from '@nestjs/common';
+
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Get()
-  getTasks(@Body() body) {
-    return this.tasksService.getAll(body.data.task.userId);
+  getTasks(@Request() req) {
+    return this.tasksService.getAll(req.user.id);
   }
 
   @Get(':id')
-  getTask(@Param('id') id) {
-    return this.tasksService.getOne(parseInt(id));
+  getTask(@Request() req, @Param('id', ParseIntPipe) id) {
+    return this.tasksService.getOne(req.user.id, id);
   }
 
   @Post()
   createTask(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(
-      createTaskDto.title,
-      createTaskDto.description,
-      createTaskDto.userId,
-      createTaskDto.Date,
-      createTaskDto.stateId,
-    );
+    return this.tasksService.create(createTaskDto);
   }
 
   @Put(':id')
-  updateTask(@Param('id') id, @Body() body) {
-    return this.tasksService.update(
-      parseInt(id),
-      body.data.task.title,
-      body.data.task.description,
-    );
+  update(
+    @Request() req,
+    @Param('id', ParseIntPipe) id,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.update(req.user.id, id, updateTaskDto);
   }
 
   @Patch(':id')
-  updateState(@Param('id') id, @Body() body) {
-    return this.tasksService.updateState(parseInt(id), body.data.task.state);
+  updateTask(
+    @Request() req,
+    @Param('id', ParseIntPipe) id,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.updateTask(req.user.id, id, updateTaskDto);
   }
 
-  @Delete()
-  deleteTask(@Param('id') id) {
-    return this.tasksService.delete(parseInt(id));
+  @Patch(':id')
+  updateState(
+    @Request() req,
+    @Param('id', ParseIntPipe) id,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ) {
+    return this.tasksService.updateState(req.user.id, id, updateTaskDto);
+  }
+
+  @Delete(':id')
+  deleteTask(@Request() req, @Param('id', ParseIntPipe) id) {
+    return this.tasksService.delete(req.user.id, id);
   }
 }
