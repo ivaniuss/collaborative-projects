@@ -24,10 +24,11 @@ export class TasksService {
   }
 
   async update(userId: string, id: number, updateTaskDto: UpdateTaskDto) {
-    return prisma.task.update({
+    return await prisma.task.update({
       where: { id: id, userId: userId },
       data: {
         ...updateTaskDto,
+        update: new Date(),
       },
     });
   }
