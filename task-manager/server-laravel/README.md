@@ -1,3 +1,43 @@
+# Task Manager - Laravel Application
+
+This project is built using the Laravel framework.
+
+## API Documentation
+
+[TODO: Add link to API documentation]
+
+## Database Setup
+
+This project uses PostgreSQL as the database engine, managed via Docker Compose.
+
+To set up the database, follow these steps:
+1. Install Docker Compose if you haven't already.
+2. Navigate to the project directory in your terminal.
+3. Run `docker-compose up -d` to start the PostgreSQL container.
+
+## Installation
+
+After cloning the repository, follow these steps to set up the project:
+
+1. Run `composer install` to install project dependencies.
+2. Run the following commands to migrate the database:
+
+composer install
+php artisan migrate --path=./database/migrations/2024_05_28_031120_create_user_table.php 
+php artisan migrate --path=./database/migrations/2024_05_28_032828_create_state_table.php
+
+3. Finally, run `php artisan migrate` to execute any remaining migrations.
+4. Seed the database with initial data by running `php artisan db:seed --class=StateSeeder`.
+
+## Usage
+
+Once the setup is complete, you can start the Laravel development server by running `php artisan serve`. 
+This will serve the application at `http://localhost:8000` by default.
+
+Feel free to explore the API endpoints documented in [TODO: Add link to API documentation] to interact with the application.
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

@@ -14,7 +14,7 @@ class User extends Authenticatable
     protected $table = 'user';
 
     public function tasks(){
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Tasks::class);
     }
 
     /**
@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -33,10 +33,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
 
     /**
      * Get the attributes that should be cast.
