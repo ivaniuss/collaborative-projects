@@ -13,7 +13,7 @@ export default function BlogRow({ blog, index }: BlogRowProps) {
       <td>{blog.title}</td>
       <td className="flex justify-center gap-2 ">
         <Link
-          to={"/"}
+          to={"/post/" + blog.id}
           className="text-blue-500 hover:text-blue-700 hover:underline"
         >
           Ver
