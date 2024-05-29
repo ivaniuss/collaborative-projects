@@ -2,11 +2,23 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { FaDeleteLeft, FaRegCircleUser } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import { TbNotes } from "react-icons/tb";
+import { useState } from "react";
+import AddTask from "./AddTask";
 
 
 function Dashboard() {
+  const [modal, setModal] = useState(false)
+
+
+  const openModal = () => {
+    setModal(true);
+  }
+  const cerrarModal = (bool: boolean) => {
+    setModal(bool);
+  }
+
   return (
-    <div className="flex outline outline-orange-300 h-screen">
+    <div className="flex outline h-screen">
       <aside className="flex-col justify-between flex bg-white h-screen w-72">
         <div>
           <section className="py-3 justify-between items-center flex border-b">
@@ -28,7 +40,12 @@ function Dashboard() {
           </section>
         </div>
         <div className="px-3 place-items-center grid h-12 mb-4 w-full">
-          <button className="transition hover:bg-slate-900 rounded-md py-1 w-full  bg-slate-800">+ Add Note</button>
+          <button 
+            className="transition hover:bg-slate-900 rounded-md py-1 w-full  bg-slate-800"
+            onClick={() => openModal()}
+          >
+            + Add Note
+          </button>
         </div>
       </aside>
       <main className="w-screen bg-white border-l">
@@ -75,6 +92,7 @@ function Dashboard() {
           ))}
         </article>
       </main>
+      {modal && <AddTask propModal={cerrarModal}/>}
     </div>
   )
 }

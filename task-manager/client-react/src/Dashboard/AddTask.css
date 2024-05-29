@@ -1,0 +1,18 @@
+/* Estilos personalizados para el scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 4px; /* Ancho de la barra de desplazamiento */
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent; /* Color del fondo de la barra de desplazamiento */
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: rgb(30 41 59); /* Color de la barra de desplazamiento */
+    border-radius: 10px; /* Radio de borde para esquinas redondeadas */
+    border: 1px solid #ddd; /* Borde alrededor del pulgar de la barra de desplazamiento */
+  }
+  
+  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color del pulgar cuando se desplaza sobre él */
+  }
