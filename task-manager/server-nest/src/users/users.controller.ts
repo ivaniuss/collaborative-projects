@@ -10,10 +10,6 @@ export class UsersController {
   @Public()
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(
-      createUserDto.username,
-      createUserDto.password,
-      createUserDto.email,
-    );
+    return this.usersService.createUser(createUserDto);
   }
 }
