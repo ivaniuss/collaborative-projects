@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'user';
+
     public function tasks(){
         return $this->hasMany(Task::class);
     }

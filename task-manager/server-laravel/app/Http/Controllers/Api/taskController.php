@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Tasks;
 
 class taskController extends Controller
 {
     //
     public function findAll(){
-        return "find all";
+        return Tasks::all();
     }
 
     public function save(){

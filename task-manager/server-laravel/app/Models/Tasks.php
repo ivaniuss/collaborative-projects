@@ -5,9 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class Tasks extends Model
 {
     use HasFactory;
+
+    protected $table = 'tasks';
+
+    protected $fillable = [
+        'title',
+        'description',
+        'user_id',
+        'state_id',
+    ];
 
     public function user()
     {
