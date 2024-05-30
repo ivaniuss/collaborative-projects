@@ -24,7 +24,10 @@ export default function HomePage() {
           {posts.map((post) => (
             <PostCard
               key={post.id}
+<<<<<<< HEAD
               id={post.id}
+=======
+>>>>>>> 39a6c79 (feat: the blogs are get of the server (#22) (#26))
               title={post.title}
               time={post.updatedAt}
               description={post.content}
