@@ -1,0 +1,17 @@
+version: '26.1.1'
+
+services:
+  db:
+    image: postgres:13
+    container_name: postgres-container-events
+    environment:
+      POSTGRES_DB: eventsdb
+      POSTGRES_USER: nest
+      POSTGRES_PASSWORD: nestpass
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
