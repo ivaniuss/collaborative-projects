@@ -23,6 +23,7 @@ After cloning the repository, follow these steps to set up the project:
 2. Run the following commands to migrate the database:
 
 composer install
+php artisan key:generate
 php artisan migrate --path=./database/migrations/2024_05_28_031120_create_user_table.php 
 php artisan migrate --path=./database/migrations/2024_05_28_032828_create_state_table.php
 
