@@ -1,7 +1,11 @@
 # compiled output
 /dist
 /node_modules
+<<<<<<< HEAD
 .env
+=======
+
+>>>>>>> dfba103 (Develop (#36))
 # Logs
 logs
 *.log
