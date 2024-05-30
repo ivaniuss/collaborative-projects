@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { IsString, IsDate, IsNotEmpty } from 'class-validator';
 
 export class CreateEventDto {
@@ -17,3 +18,6 @@ export class CreateEventDto {
   @IsNotEmpty()
   date: Date;
 }
+=======
+export class CreateEventDto {}
+>>>>>>> dfba103 (Develop (#36))

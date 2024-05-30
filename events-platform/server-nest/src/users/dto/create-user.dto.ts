@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { IsString, IsEmail, MinLength, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
@@ -19,3 +20,6 @@ export class CreateUserDto {
   @IsOptional()
   email?: string;
 }
+=======
+export class CreateUserDto {}
+>>>>>>> dfba103 (Develop (#36))
