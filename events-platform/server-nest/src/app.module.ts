@@ -2,12 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity';
-import { Event } from './events/entities/event.entity';
-import { Registration } from './registrations/entities/registration.entity';
-import { EventsModule } from './events/events.module';
-import { RegistrationsModule } from './registrations/registrations.module';
 
 @Module({
   imports: [
@@ -18,12 +12,9 @@ import { RegistrationsModule } from './registrations/registrations.module';
       username: 'nest',
       password: 'nestpass',
       database: 'taskdb',
-      entities: [User, Event, Registration],
+      entities: [],
       synchronize: true,
     }),
-    UsersModule,
-    EventsModule,
-    RegistrationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
