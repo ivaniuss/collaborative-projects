@@ -7,11 +7,17 @@ const prisma = new PrismaClient();
 @Injectable()
 export class TasksService {
   async getAll(userId: string) {
-    return await prisma.task.findMany({ where: { userId: userId } });
+    return await prisma.task.findMany({
+      where: { userId: userId },
+      include: { state: true },
+    });
   }
 
   async getOne(userId: string, id: number) {
-    return await prisma.task.findUnique({ where: { userId: userId, id: id } });
+    return await prisma.task.findUnique({
+      where: { userId: userId, id: id },
+      include: { state: true },
+    });
   }
 
   async create(userId: string, createTaskDto: CreateTaskDto) {
