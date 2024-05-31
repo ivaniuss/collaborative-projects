@@ -1,13 +1,15 @@
-import './App.css'
-// import Dashboard from './Dashboard/Dashboard'
+import React from 'react';
+React
+import RegisterLogin from './RegisterLogin/RegisterLogin'; // Ajusta la ruta si es necesario
 
-function App() {
-
+const App = () => {
   return (
-    <>
-    {/* <Dashboard/> */}
-    </>
-  )
+    <div className="App">
+      <RegisterLogin />
+    </div>
+    
+  );
 }
 
-export default App
+export default App;
+
