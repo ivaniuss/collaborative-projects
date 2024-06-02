@@ -60,4 +60,14 @@ export class UsersService {
       throw new InternalServerErrorException('Failed to find user by username');
     }
   }
+
+  async findUserById(id: string): Promise<User | null> {
+    try {
+      return await this.usersRepository.findOne({
+        where: { id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to find user by ID');
+    }
+  }
 }
