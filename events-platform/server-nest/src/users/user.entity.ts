@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -22,4 +28,28 @@ export class User {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => AuthProvider, (authProvider) => authProvider.user)
+  authProviders: AuthProvider[];
+}
+
+@Entity()
+export class AuthProvider {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  provider: string;
+
+  @Column()
+  providerId: string;
+
+  @Column({ nullable: true })
+  accessToken?: string;
+
+  @Column({ nullable: true })
+  refreshToken?: string;
+
+  @ManyToOne(() => User, (user) => user.authProviders)
+  user: User;
 }
