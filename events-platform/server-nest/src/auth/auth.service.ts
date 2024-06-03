@@ -20,13 +20,15 @@ export class AuthService {
     return null;
   }
 
-  async validateGoogleUser(email: string, googleId: string): Promise<User> {
-    let user = await this.usersService.findUserByEmail(email);
-    if (!user) {
-      user = await this.usersService.createUser({
-        email,
-        googleId,
-      });
+  async validateOAuthUser(
+    provider: string,
+    providerId: string,
+    email?: string,
+  ): Promise<User> {
+    let user = await this.usersService.findUserByProvider(provider, providerId);
+    if (!user && email) {
+      user = await this.usersService.createUser({ email });
+      await this.usersService.linkAuthProvider(user, provider, providerId);
     }
     return user;
   }

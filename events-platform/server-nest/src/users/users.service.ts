@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { AuthProvider, User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 
@@ -14,13 +14,14 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @InjectRepository(AuthProvider)
+    private authProviderRepository: Repository<AuthProvider>,
   ) {}
 
   async createUser(
     createUserDto: CreateUserDto,
   ): Promise<Omit<User, 'password'>> {
-    const { username, password, email, googleId } = createUserDto;
-
+    const { username, password, email } = createUserDto;
     let newUser: User;
 
     if (username && password) {
@@ -34,7 +35,7 @@ export class UsersService {
         ...createUserDto,
         password: hashedPassword,
       });
-    } else if (email && googleId) {
+    } else if (email) {
       const existingUserByEmail = await this.findUserByEmail(email);
       if (existingUserByEmail) {
         throw new ConflictException('Email already exists');
@@ -63,5 +64,33 @@ export class UsersService {
 
   async findUserById(id: string): Promise<User | null> {
     return this.usersRepository.findOne({ where: { id } });
+  }
+
+  async findUserByProvider(
+    provider: string,
+    providerId: string,
+  ): Promise<User | null> {
+    const authProvider = await this.authProviderRepository.findOne({
+      where: { provider, providerId },
+      relations: ['user'],
+    });
+    return authProvider?.user || null;
+  }
+
+  async linkAuthProvider(
+    user: User,
+    provider: string,
+    providerId: string,
+    accessToken?: string,
+    refreshToken?: string,
+  ): Promise<AuthProvider> {
+    const authProvider = this.authProviderRepository.create({
+      provider,
+      providerId,
+      accessToken,
+      refreshToken,
+      user,
+    });
+    return this.authProviderRepository.save(authProvider);
   }
 }

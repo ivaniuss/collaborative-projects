@@ -22,9 +22,10 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   ): Promise<any> {
     try {
       const { emails, id } = profile;
-      const user = await this.authService.validateGoogleUser(
-        emails[0].value,
+      const user = await this.authService.validateOAuthUser(
+        'google',
         id,
+        emails[0].value,
       );
       if (!user) {
         throw new UnauthorizedException('User not found');
