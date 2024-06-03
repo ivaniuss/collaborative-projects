@@ -13,7 +13,7 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  googleId?: string;
+  providerId?: string;
 
   @IsEmail()
   @IsOptional()

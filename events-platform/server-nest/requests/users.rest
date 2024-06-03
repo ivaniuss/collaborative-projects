@@ -1,3 +1,13 @@
+post http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "username": "ivan", 
+  "password": "ivan123", 
+  "email": "ivan.emi94@gmail.com"
+}
+
+###
 post http://localhost:3000/api/auth/login 
 Content-Type: application/json
 

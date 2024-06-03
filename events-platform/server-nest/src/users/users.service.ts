@@ -29,7 +29,6 @@ export class UsersService {
       if (existingUserByUsername) {
         throw new ConflictException('Username already exists');
       }
-
       const hashedPassword = await bcrypt.hash(password, 10);
       newUser = this.usersRepository.create({
         ...createUserDto,
@@ -78,19 +77,21 @@ export class UsersService {
   }
 
   async linkAuthProvider(
-    user: User,
+    userId: string,
     provider: string,
     providerId: string,
-    accessToken?: string,
-    refreshToken?: string,
-  ): Promise<AuthProvider> {
+  ): Promise<void> {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new InternalServerErrorException('User not found');
+    }
     const authProvider = this.authProviderRepository.create({
       provider,
       providerId,
-      accessToken,
-      refreshToken,
       user,
     });
-    return this.authProviderRepository.save(authProvider);
+    await this.authProviderRepository.save(authProvider);
   }
 }

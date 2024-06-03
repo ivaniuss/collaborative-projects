@@ -27,8 +27,13 @@ export class AuthService {
   ): Promise<User> {
     let user = await this.usersService.findUserByProvider(provider, providerId);
     if (!user && email) {
-      user = await this.usersService.createUser({ email });
-      await this.usersService.linkAuthProvider(user, provider, providerId);
+      user = await this.usersService.findUserByEmail(email);
+      if (user) {
+        await this.usersService.linkAuthProvider(user.id, provider, providerId);
+      } else {
+        user = await this.usersService.createUser({ email });
+        await this.usersService.linkAuthProvider(user.id, provider, providerId);
+      }
     }
     return user;
   }

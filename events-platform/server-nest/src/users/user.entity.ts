@@ -20,9 +20,6 @@ export class User {
   @Column({ nullable: true })
   password?: string;
 
-  @Column({ nullable: true })
-  googleId?: string;
-
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
@@ -43,12 +40,6 @@ export class AuthProvider {
 
   @Column()
   providerId: string;
-
-  @Column({ nullable: true })
-  accessToken?: string;
-
-  @Column({ nullable: true })
-  refreshToken?: string;
 
   @ManyToOne(() => User, (user) => user.authProviders)
   user: User;
