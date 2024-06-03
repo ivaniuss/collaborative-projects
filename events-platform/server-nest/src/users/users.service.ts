@@ -19,26 +19,30 @@ export class UsersService {
   async createUser(
     createUserDto: CreateUserDto,
   ): Promise<Omit<User, 'password'>> {
-    const { username, password, email } = createUserDto;
-    const existingUserByUsername = await this.findUserByUsername(username);
-    const existingUserByEmail = await this.usersRepository.findOne({
-      where: { email },
-    });
+    const { username, password, email, googleId } = createUserDto;
 
-    if (existingUserByUsername) {
-      throw new ConflictException('Username already exists');
+    let newUser: User;
+
+    if (username && password) {
+      const existingUserByUsername = await this.findUserByUsername(username);
+      if (existingUserByUsername) {
+        throw new ConflictException('Username already exists');
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      newUser = this.usersRepository.create({
+        ...createUserDto,
+        password: hashedPassword,
+      });
+    } else if (email && googleId) {
+      const existingUserByEmail = await this.findUserByEmail(email);
+      if (existingUserByEmail) {
+        throw new ConflictException('Email already exists');
+      }
+      newUser = this.usersRepository.create(createUserDto);
+    } else {
+      throw new InternalServerErrorException('Invalid user data');
     }
-
-    if (existingUserByEmail) {
-      throw new ConflictException('Email already exists');
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = await this.usersRepository.create({
-      ...createUserDto,
-      password: hashedPassword,
-    });
 
     try {
       const savedUser = await this.usersRepository.save(newUser);
@@ -50,24 +54,14 @@ export class UsersService {
   }
 
   async findUserByUsername(username: string): Promise<User | null> {
-    try {
-      return await this.usersRepository.findOne({
-        where: {
-          username,
-        },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException('Failed to find user by username');
-    }
+    return this.usersRepository.findOne({ where: { username } });
+  }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    return this.usersRepository.findOne({ where: { email } });
   }
 
   async findUserById(id: string): Promise<User | null> {
-    try {
-      return await this.usersRepository.findOne({
-        where: { id },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException('Failed to find user by ID');
-    }
+    return this.usersRepository.findOne({ where: { id } });
   }
 }
