@@ -1,10 +1,14 @@
+import { Event } from 'src/events/event.entity';
+import { Registration } from 'src/registrations/registration.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
   ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
+import { Role } from '../auth/roles.enum';
 
 @Entity()
 export class User {
@@ -20,7 +24,7 @@ export class User {
   @Column({ nullable: true })
   password?: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @Column({ default: true })
@@ -28,6 +32,19 @@ export class User {
 
   @OneToMany(() => AuthProvider, (authProvider) => authProvider.user)
   authProviders: AuthProvider[];
+
+  @OneToMany(() => Event, (event) => event.organizer)
+  events: Event[];
+
+  @OneToMany(() => Registration, (registration) => registration.user)
+  registrations: Registration[];
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.User,
+  })
+  role: Role;
 }
 
 @Entity()
